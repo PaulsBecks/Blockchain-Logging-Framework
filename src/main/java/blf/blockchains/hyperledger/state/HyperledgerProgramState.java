@@ -1,5 +1,6 @@
 package blf.blockchains.hyperledger.state;
 
+import blf.blockchains.hyperledger.helpers.UserContext;
 import blf.blockchains.hyperledger.variables.HyperledgerVariables;
 import blf.core.state.ProgramState;
 import org.hyperledger.fabric.gateway.Gateway;
@@ -38,6 +39,21 @@ public class HyperledgerProgramState extends ProgramState {
 
     public void setNetwork(Network network) {
         this.network = network;
+    }
+
+    // ****************************************************
+    // HyperledgerUserSpecification
+    // ****************************************************
+
+    // ======= User Context ======
+    private UserContext userContext;
+
+    public UserContext getUserContext() {
+        return userContext;
+    }
+
+    public void setUserContext(UserContext userContext) {
+        this.userContext = userContext;
     }
 
     // ****************************************************
