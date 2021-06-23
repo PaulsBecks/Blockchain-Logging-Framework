@@ -336,6 +336,16 @@ public class RootListener implements BcqlListener {
     }
 
     @Override
+    public void enterEmitStatementHttpRequest(EmitStatementHttpRequestContext ctx) {
+        this.notifyListener(BcqlListener::enterEmitStatementHttpRequest, ctx);
+    }
+
+    @Override
+    public void exitEmitStatementHttpRequest(EmitStatementHttpRequestContext ctx) {
+        this.notifyListener(BcqlListener::exitEmitStatementHttpRequest, ctx);
+    }
+
+    @Override
     public void enterNamedEmitVariable(NamedEmitVariableContext ctx) {
         this.notifyListener(BcqlListener::enterNamedEmitVariable, ctx);
     }

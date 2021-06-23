@@ -10,6 +10,7 @@ import blf.grammar.BcqlParser;
 import blf.parsing.VariableExistenceListener;
 import blf.util.TypeUtils;
 import org.antlr.v4.runtime.tree.ParseTree;
+import java.math.BigInteger;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -116,7 +117,8 @@ public class EthereumListener extends BaseBlockchainListener {
         }
 
         if (ctx.KEY_CURRENT() != null) {
-            return BlockNumberSpecification.ofCurrent(this.state.getBlockchainVariables());
+            LOGGER.info("Key current is not null");
+            return BlockNumberSpecification.ofCurrent((EthereumProgramState) this.state);
         }
 
         if (ctx.KEY_EARLIEST() != null) {

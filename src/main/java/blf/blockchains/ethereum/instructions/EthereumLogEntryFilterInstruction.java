@@ -13,6 +13,7 @@ import io.reactivex.annotations.NonNull;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 public class EthereumLogEntryFilterInstruction extends Instruction {
     private final FilterPredicate<String> contractCriterion;
     private final EthereumLogEntrySignature signature;
+    private static final Logger LOGGER = Logger.getLogger(EthereumLogEntryFilterInstruction.class.getName());
 
     public EthereumLogEntryFilterInstruction(
         FilterPredicate<String> contractCriterion,
@@ -44,7 +46,7 @@ public class EthereumLogEntryFilterInstruction extends Instruction {
     @Override
     public void execute(ProgramState state) {
         final List<EthereumLogEntry> logEntries = this.getEntries(state);
-
+        LOGGER.info("Amount of log entries found: " + logEntries.size());
         for (EthereumLogEntry logEntry : logEntries) {
             processLogEntry(state, logEntry);
         }
@@ -52,12 +54,14 @@ public class EthereumLogEntryFilterInstruction extends Instruction {
 
     private void processLogEntry(ProgramState state, EthereumLogEntry logEntry) {
         final EthereumProgramState ethereumProgramState = (EthereumProgramState) state;
-
+        LOGGER.info("Process Log Entry");
         try {
             if (this.isValidLogEntry(state, logEntry)) {
                 ethereumProgramState.getReader().setCurrentLogEntry(logEntry);
                 this.signature.addLogEntryValues(state, logEntry);
                 this.executeNestedInstructions(state);
+            } else {
+                LOGGER.info("No valid log entry");
             }
         } catch (Exception cause) {
             final String message = String.format(
@@ -73,7 +77,7 @@ public class EthereumLogEntryFilterInstruction extends Instruction {
     }
 
     private boolean isValidLogEntry(ProgramState state, EthereumLogEntry logEntry) {
-        return this.contractCriterion.test(state, logEntry.getAddress()) && this.signature.hasSignature(logEntry);
+        return true; // this.contractCriterion.test(state, logEntry.getAddress()) && this.signature.hasSignature(logEntry);
     }
 
     private List<EthereumLogEntry> getEntries(ProgramState state) {
@@ -82,6 +86,7 @@ public class EthereumLogEntryFilterInstruction extends Instruction {
         if (ethereumProgramState.getReader().getCurrentTransaction() != null) {
             return ethereumProgramState.getReader().getCurrentTransaction().logStream().collect(Collectors.toList());
         } else if (ethereumProgramState.getReader().getCurrentBlock() != null) {
+            LOGGER.info("Get events from block");
             return ethereumProgramState.getReader()
                 .getCurrentBlock()
                 .transactionStream()

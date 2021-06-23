@@ -5,11 +5,13 @@ import blf.core.state.ProgramState;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * An abstract class that services as a base class for every possible instruction.
  */
 public abstract class Instruction {
+    private static final Logger LOGGER = Logger.getLogger(BlockInstruction.class.getName());
 
     private final List<Instruction> nestedInstructions;
 
@@ -43,6 +45,7 @@ public abstract class Instruction {
      */
     public void executeNestedInstructions(final ProgramState programState) {
         for (Instruction nestedInstruction : this.nestedInstructions) {
+            LOGGER.info("Execute nested instruction: " + nestedInstruction.getClass());
             nestedInstruction.execute(programState);
         }
     }

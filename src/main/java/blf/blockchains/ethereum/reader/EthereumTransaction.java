@@ -3,6 +3,7 @@ package blf.blockchains.ethereum.reader;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.stream.Stream;
 
 /**
@@ -11,6 +12,7 @@ import java.util.stream.Stream;
 public abstract class EthereumTransaction {
     private EthereumBlock block;
     private final List<EthereumLogEntry> logs;
+    private static final Logger LOGGER = Logger.getLogger(EthereumTransaction.class.getName());
 
     protected EthereumTransaction() {
         this.logs = new ArrayList<>();
@@ -47,6 +49,7 @@ public abstract class EthereumTransaction {
     }
 
     public Stream<EthereumLogEntry> logStream() {
+        LOGGER.info("EtherumLogEntries: " + logs.size());
         return this.logs.stream();
     }
 

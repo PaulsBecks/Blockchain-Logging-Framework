@@ -156,6 +156,7 @@ emitStatement
     | emitStatementLog
     | emitStatementXesEvent
     | emitStatementXesTrace
+    | emitStatementHttpRequest
     ;
 
 
@@ -163,6 +164,12 @@ emitStatement
 
 emitStatementCsv
     : KEY_EMIT KEY_CSV_ROW '(' tableName=valueExpression ')' '(' namedEmitVariable (',' namedEmitVariable)* ')'	';'
+    ;
+
+/** An emitStatementCsv sets the CSV format as data output and allows for further target data and output format specification  */
+
+emitStatementHttpRequest
+    : KEY_EMIT KEY_HTTP_REQUEST '(' uri=valueExpression ')' '(' namedEmitVariable (',' namedEmitVariable)* ')'	';'
     ;
 
 

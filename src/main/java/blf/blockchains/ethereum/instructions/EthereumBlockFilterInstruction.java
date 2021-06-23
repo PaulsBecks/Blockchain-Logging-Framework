@@ -13,6 +13,7 @@ import java.math.BigInteger;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -81,23 +82,18 @@ public class EthereumBlockFilterInstruction extends BlockInstruction {
      * @param expectedBlockNumber  number of the block to be waited for
      */
     private void waitUntilBlockExists(final EthereumProgramState ethereumProgramState, final BigInteger expectedBlockNumber) {
-
-        Timer timer = new Timer();
-        // Poll for the up-to-date block number and stop timer if up-to-date block number >= expectedBlockNumber
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                // queryBlockNumber().compareTo(expectedBlockNumber) is >= 0 iff queryBlockNumber() >= expectedBlockNumber
-                boolean newBlockAvailable = ethereumProgramState.getReader()
-                    .getClient()
-                    .queryBlockNumber()
-                    .compareTo(expectedBlockNumber) >= 0;
-
-                if (newBlockAvailable) {
-                    timer.cancel();
-                }
+        while (true) {
+            // queryBlockNumber().compareTo(expectedBlockNumber) is >= 0 iff queryBlockNumber() >= expectedBlockNumber
+            boolean newBlockAvailable = ethereumProgramState.getReader().getClient().queryBlockNumber().compareTo(expectedBlockNumber) >= 0;
+            if (newBlockAvailable) {
+                break;
             }
-        }, 0, BLOCK_QUERY_DELAY_MILLISECONDS);
+            try {
+                Thread.sleep(BLOCK_QUERY_DELAY_MILLISECONDS);
+            } catch (InterruptedException ie) {
+                LOGGER.log(Level.SEVERE, ie.toString());
+            }
+        }
     }
 
 }

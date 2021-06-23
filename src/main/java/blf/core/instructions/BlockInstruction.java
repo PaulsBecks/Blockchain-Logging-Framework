@@ -6,8 +6,10 @@ import blf.core.writers.DataWriters;
 
 import java.math.BigInteger;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class BlockInstruction extends Instruction {
+    private static final Logger LOGGER = Logger.getLogger(BlockInstruction.class.getName());
 
     protected BlockInstruction(final List<Instruction> nestedInstructions) {
         super(nestedInstructions);
@@ -24,6 +26,8 @@ public class BlockInstruction extends Instruction {
 
             return;
         }
+
+        LOGGER.info("Execute nested instructions for block number: " + currentBlockNumber.toString());
 
         final DataWriters dataWriters = programState.getWriters();
 
