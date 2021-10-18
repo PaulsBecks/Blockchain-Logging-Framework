@@ -164,6 +164,20 @@ public abstract class BaseBlockchainListener extends BcqlBaseListener {
     }
 
     @Override
+    public void exitEmitStatementHttpRequest(BcqlParser.EmitStatementHttpRequestContext ctx) {
+        LinkedList<CsvColumnSpecification> variables = new LinkedList<>();
+
+        for (BcqlParser.NamedEmitVariableContext varCtx : ctx.namedEmitVariable()) {
+            final String name = varCtx.valueExpression().variableName() == null
+                ? varCtx.variableName().getText()
+                : varCtx.valueExpression().variableName().getText();
+            final ValueAccessorSpecification accessor = this.getValueAccessor(varCtx.valueExpression());
+            variables.add(CsvColumnSpecification.of(name, accessor));
+        }
+        this.composer.addInstruction(HttpExportSpecification.of(this.getValueAccessor(ctx.uri), variables));
+    }
+
+    @Override
     public void exitMethodStatement(BcqlParser.MethodStatementContext ctx) {
         this.addMethodCall(ctx.methodInvocation(), null);
     }

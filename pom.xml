@@ -41,6 +41,13 @@
   </repositories>
 
   <dependencies>
+
+    <dependency>
+      <groupId>org.bouncycastle</groupId>
+      <artifactId>bcpkix-jdk15on</artifactId>
+      <version>1.69</version>
+    </dependency>
+
     <!-- jackson -->
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
@@ -204,6 +211,12 @@
         <plugin>
           <artifactId>maven-site-plugin</artifactId>
           <version>3.7.1</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.bouncycastle</groupId>
+          <artifactId>bcpkix-jdk15on</artifactId>
+          <version>1.55</version>
         </plugin>
 
         <plugin>

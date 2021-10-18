@@ -1,5 +1,6 @@
 package blf.configuration;
 
+import blf.blockchains.ethereum.state.EthereumProgramState;
 import blf.core.interfaces.FilterPredicate;
 import blf.core.values.BlockchainVariables;
 import blf.core.values.ValueAccessor;
@@ -38,8 +39,8 @@ public class BlockNumberSpecification {
         return new BlockNumberSpecification(accessor, createStopCriterion(accessor), Type.NUMBER);
     }
 
-    public static BlockNumberSpecification ofCurrent(BlockchainVariables blockchainVariables) {
-        final ValueAccessor accessor = blockchainVariables.currentBlockNumberAccessor();
+    public static BlockNumberSpecification ofCurrent(EthereumProgramState state) {
+        final ValueAccessor accessor = s -> ((EthereumProgramState)s).getReader().getClient().queryBlockNumber();
         return new BlockNumberSpecification(accessor, createStopCriterion(accessor), Type.CURRENT);
     }
 

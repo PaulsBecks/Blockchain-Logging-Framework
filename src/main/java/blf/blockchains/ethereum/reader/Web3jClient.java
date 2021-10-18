@@ -127,13 +127,13 @@ public class Web3jClient implements EthereumClient {
         final EthBlockNumber queryResult;
         try {
             queryResult = this.web3j.ethBlockNumber().send();
-
             if (queryResult.hasError()) {
                 ExceptionHandler.getInstance().handleException(queryResult.getError().getMessage(), new IOException());
 
                 return null;
             }
 
+            LOGGER.info("The last blocknumber is: " + queryResult.getBlockNumber());
             return queryResult.getBlockNumber();
 
         } catch (IOException e) {
@@ -186,12 +186,14 @@ public class Web3jClient implements EthereumClient {
             return null;
         }
 
-        final EthFilter filter = new EthFilter(number, number, new ArrayList<>());
+        final EthFilter filter = new EthFilter(number, number, List.of("0xe4EFfB267484Cd790143484de3Bae7fDfbE31F00"));
 
         final EthLog logResult;
         try {
             logResult = this.web3j.ethGetLogs(filter).send();
+            LOGGER.info(logResult.toString());
         } catch (IOException e) {
+            LOGGER.info(e.toString());
             ExceptionHandler.getInstance().handleException(e.getMessage(), e);
 
             return null;
@@ -222,6 +224,7 @@ public class Web3jClient implements EthereumClient {
 
     private EthereumBlock transformBlockResults(EthBlock blockResult, EthLog logResult) {
         final EthereumBlock ethBlock = new Web3jBlock(blockResult.getBlock());
+        LOGGER.info(logResult.toString());
         this.addTransactions(ethBlock, blockResult.getBlock());
         this.addLogs(ethBlock, logResult);
         return ethBlock;

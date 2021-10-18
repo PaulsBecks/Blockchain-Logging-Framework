@@ -4,6 +4,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.stream.Stream;
 
 /**
@@ -11,6 +12,7 @@ import java.util.stream.Stream;
  */
 public abstract class EthereumBlock implements Iterable<EthereumTransaction> {
     private final List<EthereumTransaction> transactions;
+    private static final Logger LOGGER = Logger.getLogger(EthereumBlock.class.getName());
 
     protected EthereumBlock() {
         this.transactions = new ArrayList<>();
@@ -65,6 +67,7 @@ public abstract class EthereumBlock implements Iterable<EthereumTransaction> {
     }
 
     public Stream<EthereumTransaction> transactionStream() {
+        LOGGER.info("Amount of transactions found: " + transactions.size());
         return this.transactions.stream();
     }
 

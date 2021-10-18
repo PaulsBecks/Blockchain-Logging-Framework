@@ -24,6 +24,7 @@ KEY_CSV_ROW: C S V ' ' R O W;                           // csv output specificat
 KEY_LOG_LINE: L O G ' ' L I N E;                        // log output specification for the emit statement
 KEY_XES_EVENT: X E S ' ' E V E N T;                     // xes event output specification for the emit statement
 KEY_XES_TRACE: X E S ' ' T R A C E;                     // xes trace output specification for the emit statement
+KEY_HTTP_REQUEST: H T T P ' ' R E Q U E S T;            // http request output specification for the emit statement
 
 KEY_EARLIEST : E A R L I E S T;                         // pick the earliest block the program can access in the source file
 KEY_CURRENT : C U R R E N T;                            // pick the latest block the program can access in the source file

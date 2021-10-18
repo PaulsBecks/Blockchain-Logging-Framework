@@ -14,13 +14,15 @@ public class DataWriters {
     private final CsvWriter csvWriter;
     private final LogWriter logWriter;
     private final XesWriter xesWriter;
+    private final HttpWriter httpWriter;
 
     public DataWriters() {
         this.csvWriter = new CsvWriter();
         this.logWriter = new LogWriter();
         this.xesWriter = new XesWriter();
+        this.httpWriter = new HttpWriter();
 
-        this.writers = new DataWriter[] { this.csvWriter, this.logWriter, this.xesWriter };
+        this.writers = new DataWriter[] { this.csvWriter, this.logWriter, this.xesWriter, this.httpWriter };
     }
 
     public XesWriter getXesWriter() {
@@ -33,6 +35,10 @@ public class DataWriters {
 
     public CsvWriter getCsvWriter() {
         return this.csvWriter;
+    }
+
+    public HttpWriter getHttpWriter() {
+        return this.httpWriter;
     }
 
     public void setOutputFolder(Path folderPath) {
