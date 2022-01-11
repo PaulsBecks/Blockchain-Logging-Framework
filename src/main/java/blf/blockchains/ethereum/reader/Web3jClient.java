@@ -213,6 +213,7 @@ public class Web3jClient implements EthereumClient {
         final EthGetTransactionReceipt transactionReceipt;
         try {
             transactionReceipt = this.web3j.ethGetTransactionReceipt(hash).send();
+            LOGGER.info("Length of Logs: " + transactionReceipt.getResult().getLogs().size());
         } catch (IOException e) {
             ExceptionHandler.getInstance().handleException(e.getMessage(), e);
 
