@@ -13,6 +13,7 @@ import org.web3j.abi.EventEncoder;
 import org.web3j.abi.FunctionReturnDecoder;
 import org.web3j.abi.TypeDecoder;
 import org.web3j.abi.datatypes.Event;
+import java.util.logging.Logger;
 
 import blf.core.state.ProgramState;
 import org.web3j.abi.datatypes.Type;
@@ -25,6 +26,7 @@ public class EthereumLogEntrySignature {
     private final List<Parameter> parameters;
     private final Event event;
     private final String encodedSignature;
+    private static final Logger LOGGER = Logger.getLogger(EthereumLogEntrySignature.class.getName());
 
     public EthereumLogEntrySignature(final String name, final Parameter... parameters) {
         this(name, Arrays.asList(parameters));
@@ -74,6 +76,7 @@ public class EthereumLogEntrySignature {
 
     private void addData(ProgramState state, EthereumLogEntry logEntry) {
         final List<Parameter> dataVariables = this.getEntryParameters(false);
+        LOGGER.info("DATA: "+logEntry.getData() +" "+ this.event.getName());
         final List<Object> results = FunctionReturnDecoder.decode(logEntry.getData(), this.event.getNonIndexedParameters())
             .stream()
             .map(Type::getValue)
