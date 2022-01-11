@@ -186,7 +186,7 @@ public class Web3jClient implements EthereumClient {
             return null;
         }
 
-        final EthFilter filter = new EthFilter(number, number, List.of("0xe4EFfB267484Cd790143484de3Bae7fDfbE31F00"));
+        final EthFilter filter = new EthFilter(number, number, new ArrayList<>());
 
         final EthLog logResult;
         try {
@@ -235,6 +235,7 @@ public class Web3jClient implements EthereumClient {
         for (int i = 0; i < block.getTransactions().size(); i++) {
             final Transaction tx = (Transaction) block.getTransactions().get(i);
             addEthereumTransaction(ethBlock, tx);
+            LOGGER.info("Transaction "+tx.getBlockHash() + " has " + tx.get);
         }
     }
 
