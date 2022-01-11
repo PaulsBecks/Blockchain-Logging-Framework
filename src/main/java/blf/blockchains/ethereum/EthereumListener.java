@@ -151,12 +151,14 @@ public class EthereumListener extends BaseBlockchainListener {
     @Override
     public void enterLogEntryFilter(BcqlParser.LogEntryFilterContext ctx) {
         LOGGER.info("Prepare log entry filter build");
+        LOGGER.info(ctx.addressList().getText());
+        this.state.getValueStore().setValue("log.address",ctx.addressList().getText());
         this.composer.prepareLogEntryFilterBuild();
     }
 
     private void buildLogEntryFilter(BcqlParser.LogEntryFilterContext ctx) {
         LOGGER.info("Build log entry filter");
-
+        LOGGER.info(ctx.addressList().getText());
         final AddressListSpecification contracts = this.getAddressListSpecification(ctx.addressList());
         final LogEntrySignatureSpecification signature = this.getLogEntrySignature(ctx.logEntrySignature());
         this.composer.buildLogEntryFilter(contracts, signature);
