@@ -61,7 +61,7 @@ public class EthereumLogEntrySignature {
 
     public void addLogEntryValues(ProgramState state, EthereumLogEntry logEntry) throws Exception {
         this.addTopics(state, logEntry);
-        this.addData(state, logEntry);
+        //this.addData(state, logEntry);
     }
 
     private void addTopics(ProgramState state, EthereumLogEntry logEntry) throws Exception {
