@@ -78,8 +78,8 @@ public class EthereumLogEntryFilterInstruction extends Instruction {
 
     private boolean isValidLogEntry(ProgramState state, EthereumLogEntry logEntry) {
         String address = (String) state.getValueStore().getValue("log.address");
-        LOGGER.info("Compare " + address + " and " + logEntry.getAddress());
-        return address.equals(logEntry.getAddress());//this.contractCriterion.test(state, logEntry.getAddress()); //&& this.signature.hasSignature(logEntry);
+        LOGGER.info("Compare " + address.toLowerCase() + " and " + logEntry.getAddress().toLowerCase());
+        return address.toLowerCase().equals(logEntry.getAddress().toLowerCase());//this.contractCriterion.test(state, logEntry.getAddress()); //&& this.signature.hasSignature(logEntry);
     }
 
     private List<EthereumLogEntry> getEntries(ProgramState state) {
