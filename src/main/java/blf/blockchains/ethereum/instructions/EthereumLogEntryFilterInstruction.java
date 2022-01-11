@@ -77,7 +77,9 @@ public class EthereumLogEntryFilterInstruction extends Instruction {
     }
 
     private boolean isValidLogEntry(ProgramState state, EthereumLogEntry logEntry) {
-        return this.contractCriterion.test(state, logEntry.getAddress()); //&& this.signature.hasSignature(logEntry);
+        String address = (String) state.getValueStore().getValue("log.address");
+        LOGGER.info("Compare " + address + " and " + logEntry.getAddress());
+        return  address == logEntry.getAddress(); //&& this.signature.hasSignature(logEntry);
     }
 
     private List<EthereumLogEntry> getEntries(ProgramState state) {
