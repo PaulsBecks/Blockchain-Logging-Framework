@@ -67,6 +67,7 @@ public class EthereumLogEntrySignature {
 
     private void addTopics(ProgramState state, EthereumLogEntry logEntry) throws Exception {
         final List<Parameter> topicParameters = this.getEntryParameters(true);
+        LOGGER.info("INFO topics" +logEntry.getTopics().size() + " should be equal to "+ (topicParameters.size() + 1));
         assert logEntry.getTopics().size() == topicParameters.size() + 1;
         for (int i = 0; i < topicParameters.size(); i++) {
             final Parameter topic = topicParameters.get(i);
@@ -78,7 +79,8 @@ public class EthereumLogEntrySignature {
 
     private void addData(ProgramState state, EthereumLogEntry logEntry) {
         final List<Parameter> dataVariables = this.getEntryParameters(false);
-        LOGGER.info("DATA: "+logEntry.getData() +" "+ this.event.getName());
+
+        LOGGER.info("DATA: "+logEntry.getData() +" "+ this.event.getNonIndexedParameters().toString());
         final List<Object> results = FunctionReturnDecoder.decode(logEntry.getData(), this.event.getNonIndexedParameters())
             .stream()
             .map(Type::getValue)
