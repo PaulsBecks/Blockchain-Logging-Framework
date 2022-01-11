@@ -70,6 +70,7 @@ public class EthereumLogEntrySignature {
         for (int i = 0; i < topicParameters.size(); i++) {
             final Parameter topic = topicParameters.get(i);
             Object value = TypeDecoder.instantiateType(topic.getType(), logEntry.getTopics().get(i + 1)).getValue();
+            LOGGER.info("INFO NAme" + topic.getName() + " value "+ value);
             state.getValueStore().setValue(topic.getName(), value);
         }
     }
