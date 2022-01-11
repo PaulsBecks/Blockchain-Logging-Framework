@@ -56,12 +56,13 @@ public class EthereumLogEntrySignature {
     }
 
     public boolean hasSignature(final EthereumLogEntry logEntry) {
+        LOGGER.info("Topics: "+ logEntry.getTopics()+ " encoded Signiture: " + logEntry.getTopics().get(0) + " should be " +this.encodedSignature);
         return !logEntry.getTopics().isEmpty() && logEntry.getTopics().get(0).equals(this.encodedSignature);
     }
 
     public void addLogEntryValues(ProgramState state, EthereumLogEntry logEntry) throws Exception {
         this.addTopics(state, logEntry);
-        //this.addData(state, logEntry);
+        this.addData(state, logEntry);
     }
 
     private void addTopics(ProgramState state, EthereumLogEntry logEntry) throws Exception {
