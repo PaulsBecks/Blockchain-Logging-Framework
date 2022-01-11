@@ -235,7 +235,6 @@ public class Web3jClient implements EthereumClient {
         for (int i = 0; i < block.getTransactions().size(); i++) {
             final Transaction tx = (Transaction) block.getTransactions().get(i);
             addEthereumTransaction(ethBlock, tx);
-            LOGGER.info("Transaction "+tx.getBlockHash() + " has " + tx.get);
         }
     }
 
